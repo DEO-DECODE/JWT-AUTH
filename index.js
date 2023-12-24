@@ -8,6 +8,7 @@ app.get("/", (req, resp) => {
   });
 });
 app.post("/login", (req, resp) => {
+
   const user = {
     id: 1,
     username: "Dev",
@@ -19,7 +20,7 @@ app.post("/login", (req, resp) => {
     });
   });
 });
-// Verification of Taken by The backend
+// Verification of Token by The backend
 app.post("/profile", verifyToken, (req, res) => {
   jwt.verify(req.token, secretKey, (err, authData) => {
     if (err) {
@@ -81,10 +82,7 @@ If the token is valid, it responds with a JSON object containing a success messa
 Token Verification Middleware (verifyToken):
 This middleware function (verifyToken) is used as a middleware in the "/profile" route.
 It extracts the "authorization" header from the request, which typically contains the JWT token.
-It checks if the "authorization" header is present. If not, it responds with a 401 Unauthorized status and a JSON object indicating that the token is missing.
-If the header is present, it splits the header value into an array using space as a delimiter.
-It checks if the array has exactly two elements. If not, it responds with a 403 Forbidden status and a JSON object indicating that the token format is invalid.
-If everything is in order, it sets req.token to the extracted token and calls next(), allowing the request to proceed to the next middleware or route handler.
+It sets req.token to the extracted token and calls next(), allowing the request to proceed to the next middleware or route handler.
 
 secretKey is a variable used as the secret key for signing and verifying JSON Web Tokens (JWTs). It's essentially a shared secret known only to the server that is used to create and verify the authenticity of JWTs.
 
